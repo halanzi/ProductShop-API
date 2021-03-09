@@ -9,6 +9,7 @@ const app = express();
 
 // middleware
 app.use(cors());
+app.use(express.json());
 
 // Logic writing
 app.get("/", (req, res) => {
@@ -20,6 +21,7 @@ app.get("/products", (req, res) => {
   res.json(products);
 });
 
+// Deleting Products
 app.delete("/products/:productId", (req, res) => {
   const { productId } = req.params;
   const foundProduct = products.find((product) => product.id === +productId);
@@ -29,6 +31,15 @@ app.delete("/products/:productId", (req, res) => {
   } else {
     res.status(404).json({ message: "Product not found" });
   }
+});
+
+// Adding Products
+app.post("/products", (req, res) => {
+  const id = products[products.length - 1].id + 1;
+  const slug = slugify(req.body.name, { lower: true });
+  const newProduct = { id, slug, ...req.body }; // id, slug are equivalent to id: id, slug: slug
+  products.push(newProduct);
+  res.status(201).json(newProduct);
 });
 
 // start server
