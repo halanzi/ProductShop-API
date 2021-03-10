@@ -1,17 +1,20 @@
 const express = require("express");
 const cors = require("cors");
 
-// data
+// Slug
+const slugify = require("slugify");
+
+// Data
 let products = require("./data");
 
-// initialise app
+// initialize app
 const app = express();
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
-// Logic writing
+// Routes
 app.get("/", (req, res) => {
   console.log("HELLO");
   res.json({ message: "Hello World" });
@@ -41,6 +44,8 @@ app.post("/products", (req, res) => {
   products.push(newProduct);
   res.status(201).json(newProduct);
 });
+
+// Updating Products
 
 // start server
 app.listen(8000, () => {
