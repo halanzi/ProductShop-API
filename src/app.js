@@ -10,7 +10,7 @@ const productRoutes = require("./routes/products");
 // middleware
 app.use(cors());
 app.use(express.json());
-app.use(productRoutes); // Note: Make sure to place this line below all other app.use() methods.
+app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
 
 // Message
 app.get("/", (req, res) => {
