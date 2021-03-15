@@ -7,6 +7,9 @@ const app = express();
 // Importing routes
 const productRoutes = require("./routes/products");
 
+// Importing database
+const db = require("./db/models");
+
 // middleware
 app.use(cors());
 app.use(express.json());
@@ -19,6 +22,18 @@ app.get("/", (req, res) => {
 });
 
 // Start server
-app.listen(8000, () => {
-  console.log("The application is running on localhost:8000");
-});
+const run = async () => {
+  try {
+    await db.sequelize.sync({ force: false });
+    console.log("Server connected to database successfully.");
+
+    app.listen(8000, () => {
+      console.log("Server up and running on port 8000.");
+      console.log("You can connect using http://localhost:8000");
+    });
+  } catch (error) {
+    console.log("Failed to connect to database:", error);
+  }
+};
+
+run();
