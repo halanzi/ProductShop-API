@@ -14,6 +14,12 @@ const db = require("./db/models");
 app.use(cors());
 app.use(express.json());
 app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    message: err.message || "Internal Server Error",
+  });
+});
 
 // Message
 app.get("/", (req, res) => {
