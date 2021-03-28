@@ -1,3 +1,4 @@
+// Dependancies
 const express = require("express");
 const router = express.Router();
 
@@ -6,7 +7,6 @@ const upload = require("../middleware/multer");
 
 // controllers
 const {
-  productCreate,
   productList,
   productUpdate,
   productDelete,
@@ -28,9 +28,6 @@ router.param("productId", async (req, res, next, productId) => {
 
 // Product list
 router.get("/", productList);
-
-// Adding Products
-router.post("/", upload.single("image"), productCreate);
 
 // Deleting Products
 router.delete("/:productId", productDelete);

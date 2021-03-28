@@ -8,6 +8,7 @@ const app = express();
 
 // Importing routes
 const productRoutes = require("./routes/products");
+const shopRoutes = require("./routes/shops");
 
 // Importing database
 const db = require("./db/models");
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // Using routes
 app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
+app.use("/shops", shopRoutes);
 
 // Media
 app.use("/media", express.static(path.join(__dirname, "src/media")));
@@ -39,7 +41,7 @@ app.get("/", (req, res) => {
 // Start server
 const run = async () => {
   try {
-    await db.sequelize.sync({ force: false });
+    await db.sequelize.sync({ force: true });
     console.log("Server connected to database successfully.");
 
     app.listen(8000, () => {

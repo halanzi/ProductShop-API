@@ -1,11 +1,8 @@
 // Slug
 const slugify = require("slugify");
 
-// Data
-let products = require("../data.js");
-
 // Databse
-const { Product } = require("../db/models");
+const { Product, Shop } = require("../db/models");
 
 // Fetch product
 exports.fetchProduct = async (productId, next) => {
@@ -18,25 +15,17 @@ exports.fetchProduct = async (productId, next) => {
 };
 
 // Product list
-exports.productList = async (req, res) => {
+exports.productList = async (req, res, next) => {
   try {
     const products = await Product.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
+      include: {
+        model: Shop,
+        as: "shops",
+        attributes: ["id"],
+      },
     });
     res.json(products);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// Create product
-exports.productCreate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    const newProduct = await Product.create(req.body);
-    res.status(201).json(newProduct);
   } catch (err) {
     next(err);
   }
