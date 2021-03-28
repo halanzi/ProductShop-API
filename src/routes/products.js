@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+// importing
+const upload = require("../middleware/multer");
+
 // controllers
 const {
   productCreate,
@@ -27,12 +30,12 @@ router.param("productId", async (req, res, next, productId) => {
 router.get("/", productList);
 
 // Adding Products
-router.post("/", productCreate);
+router.post("/", upload.single("image"), productCreate);
 
 // Deleting Products
 router.delete("/:productId", productDelete);
 
 // Updating Products
-router.put("/:productId", productUpdate);
+router.put("/:productId", upload.single("image"), productUpdate);
 
 module.exports = router;

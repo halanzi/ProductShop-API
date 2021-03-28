@@ -1,5 +1,7 @@
+// Dependancies
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 // initialize app
 const app = express();
@@ -13,7 +15,14 @@ const db = require("./db/models");
 // middleware
 app.use(cors());
 app.use(express.json());
+
+// Using routes
 app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
+
+// Media
+app.use("/media", express.static(path.join(__dirname, "src/media")));
+
+// Handling Errors
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
@@ -41,5 +50,7 @@ const run = async () => {
     console.log("Failed to connect to database:", error);
   }
 };
-
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Path not found" });
+});
 run();
