@@ -45,6 +45,7 @@ db.Sequelize = Sequelize;
 
 // Relations
 db.Shop.hasMany(db.Product, {
+  as: "products",
   foreignKey: "shopId",
   allowNull: false,
 });

@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-// initialize app
+// Initialize app
 const app = express();
 
 // Importing routes
@@ -13,7 +13,7 @@ const shopRoutes = require("./routes/shops");
 // Importing database
 const db = require("./db/models");
 
-// middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 // Start server
 const run = async () => {
   try {
-    await db.sequelize.sync({ force: true });
+    await db.sequelize.sync({ force: false });
     console.log("Server connected to database successfully.");
 
     app.listen(8000, () => {
