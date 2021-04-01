@@ -9,6 +9,7 @@ const app = express();
 // Importing routes
 const productRoutes = require("./routes/products");
 const shopRoutes = require("./routes/shops");
+const userRoutes = require("./routes/users");
 
 // Importing database
 const db = require("./db/models");
@@ -20,6 +21,7 @@ app.use(express.json());
 // Using routes
 app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
 app.use("/shops", shopRoutes);
+app.use(userRoutes);
 
 // Media
 app.use("/media", express.static(path.join(__dirname, "src/media")));
