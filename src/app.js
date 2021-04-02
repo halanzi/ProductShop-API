@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const passport = require("passport");
 
 // Initialize app
 const app = express();
@@ -11,12 +12,19 @@ const productRoutes = require("./routes/products");
 const shopRoutes = require("./routes/shops");
 const userRoutes = require("./routes/users");
 
+// Passport Strategies
+const { localStrategy } = require("./middleware/passport");
+
 // Importing database
 const db = require("./db/models");
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Passport Setup
+app.use(passport.initialize());
+passport.use(localStrategy);
 
 // Using routes
 app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
