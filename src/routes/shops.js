@@ -1,6 +1,7 @@
 // Dependancies
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 
 // importing
 const upload = require("../middleware/multer");
@@ -32,10 +33,20 @@ router.param("shopId", async (req, res, next, shopId) => {
 router.get("/", shopList);
 
 // Adding Shops
-router.post("/", upload.single("image"), shopCreate);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  shopCreate
+);
 
 // Adding Products to shop
-router.post("/:shopId/products", upload.single("image"), productCreate);
+router.post(
+  "/:shopId/products",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  productCreate
+);
 
 // Deleting Shops
 router.delete("/:shopId", shopDelete);

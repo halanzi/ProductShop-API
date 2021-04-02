@@ -13,7 +13,7 @@ const shopRoutes = require("./routes/shops");
 const userRoutes = require("./routes/users");
 
 // Passport Strategies
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 // Importing database
 const db = require("./db/models");
@@ -25,6 +25,7 @@ app.use(express.json());
 // Passport Setup
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 // Using routes
 app.use("/products", productRoutes); // Note: Make sure to place this line below all other app.use() methods.
